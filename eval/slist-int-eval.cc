@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "SListInt.h"
 #include "ece2400-stdlib.h"
+#include <fstream>
 
 //------------------------------------------------------------------------
 // print_help
@@ -124,6 +125,11 @@ int main( int argc, char** argv )
   // Calculate average elapsed time and peak heap usage
 
   double elapsed_avg = elapsed_total / ntrials;
+
+  std::ofstream myfile;
+  myfile.open ("int.csv", std::fstream::app);
+  myfile << size << ", " << elapsed_avg << "\n";
+  myfile.close();
 
   printf( "Average: elapsed time = %f second\n", elapsed_avg );
 

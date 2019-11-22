@@ -59,7 +59,29 @@ SListSpoly<T>::SListSpoly( const SListSpoly<T>& lst )
 template < typename T >
 SListSpoly<T>& SListSpoly<T>::operator=( const SListSpoly<T>& lst )
 {
+  if ( this != &lst ) {
 
+    // Delete all of the current nodes first
+
+    while ( m_head_p != nullptr ) {
+      Node* temp_p = m_head_p->next_p;
+      delete m_head_p;
+      m_head_p = temp_p;
+    }
+
+    // Push front all nodes from lst
+
+    Node* curr_p = lst.m_head_p;
+    while ( curr_p != nullptr ) {
+      push_front( curr_p->value );
+      curr_p = curr_p->next_p;
+    }
+
+    // Reverse list to get into proper order
+
+    reverse();
+  }
+  return *this;
 
 }
 //------------------------------------------------------------------------
@@ -82,10 +104,17 @@ void SListSpoly<T>::push_front( const T& v )
 template < typename T >
 const T& SListSpoly<T>::at( size_t idx ) const
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement at (read version)
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  throw ece2400::OutOfRange( "SListSpoly::at(): index out of bound!" );
+  Node*  curr_p   = m_head_p;
+  size_t curr_idx = 0;
+
+  while ( curr_p != nullptr ) {
+    if ( curr_idx == idx )
+      return curr_p->value;
+    curr_idx += 1;
+    curr_p   = curr_p->next_p;
+  }
+
+  return 0;
 }
 
 //------------------------------------------------------------------------
@@ -95,10 +124,17 @@ const T& SListSpoly<T>::at( size_t idx ) const
 template < typename T >
 T& SListSpoly<T>::at( size_t idx )
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement at (write version)
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  throw ece2400::OutOfRange( "SListSpoly::at(): index out of bound!" );
+  Node*  curr_p   = m_head_p;
+  size_t curr_idx = 0;
+
+  while ( curr_p != nullptr ) {
+    if ( curr_idx == idx )
+      return curr_p->value;
+    curr_idx += 1;
+    curr_p   = curr_p->next_p;
+  }
+
+  return 0;
 }
 
 //------------------------------------------------------------------------
@@ -108,9 +144,30 @@ T& SListSpoly<T>::at( size_t idx )
 template < typename T >
 void SListSpoly<T>::reverse()
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement reverse
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  size_t size   = 0;
+  Node*  curr_p = m_head_p;
+  while ( curr_p != nullptr ) {
+    size   += 1;
+    curr_p = curr_p->next_p;
+  }
+
+  int* tmp = new int[size];
+
+  size_t i = 0;
+  curr_p   = m_head_p;
+  while ( curr_p != nullptr ) {
+    tmp[i++] = curr_p->value;
+    curr_p = curr_p->next_p;
+  }
+
+  size_t j = size-1;
+  curr_p   = m_head_p;
+  while ( curr_p != nullptr ) {
+    curr_p->value = tmp[j--];
+    curr_p = curr_p->next_p;
+  }
+
+  delete[] tmp;
 }
 
 //------------------------------------------------------------------------

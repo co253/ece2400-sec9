@@ -15,9 +15,7 @@
 template < typename T >
 SListSpoly<T>::SListSpoly()
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement constructor
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  m_head_p = nullptr;
 }
 
 //------------------------------------------------------------------------
@@ -27,9 +25,12 @@ SListSpoly<T>::SListSpoly()
 template < typename T >
 SListSpoly<T>::~SListSpoly()
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement destructor
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  while ( m_head_p != nullptr ) {
+    Node* temp_p = m_head_p->next_p;
+    delete m_head_p;
+    m_head_p = temp_p;
+  }
+
 }
 
 //------------------------------------------------------------------------
@@ -64,9 +65,10 @@ SListSpoly<T>& SListSpoly<T>::operator=( const SListSpoly<T>& lst )
 template < typename T >
 void SListSpoly<T>::push_front( const T& v )
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement push front
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  Node* new_node_p   = new Node;
+  new_node_p->value  = v;
+  new_node_p->next_p = m_head_p;
+  m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
@@ -114,8 +116,12 @@ void SListSpoly<T>::reverse()
 template < typename T >
 void SListSpoly<T>::print() const
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement print
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  printf("TEST!\n");
+  Node* curr_p = m_head_p;
+  while ( curr_p != nullptr ) {
+    std::cout << curr_p->value << ", ";
+    curr_p = curr_p->next_p;
+  }
+  std::printf( "\n" );
 }
 
